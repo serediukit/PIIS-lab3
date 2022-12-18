@@ -1,8 +1,8 @@
 import chess
-import multiAgents
+from multiAgents import NegamaxAgent, NegaScoutAgent, PVSAgent
 
 class Game:
-    def __init__(self, type = 'Negamax', depth = 2):
+    def __init__(self, type = 'Negamax', depth = 1):
         self.board = chess.Board('rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR')
         self.depth = depth
         self.agentType = type
@@ -10,8 +10,13 @@ class Game:
     def start(self):
         while not self.board.is_checkmate():
             self.makeMove()
-            self.board.turn *= -1
+            #self.board.turn *= -1
             print(self.board)
+            print('\n')
+            temp = input("Press Enter...\n")
+            if temp == 'exit':
+                print("Closing the game...\n")
+                exit(0)
             print('\n\n')
 
 
@@ -23,7 +28,7 @@ class Game:
         elif self.agentType == 'PVS':
             agent = PVSAgent(self.board, self.depth)
         else:
-            print('Incorrect Agent type, exiting from the game...')
+            print('Incorrect Agent type, exiting from the game...\n')
             exit(0)
 
         move = agent.getMove()
